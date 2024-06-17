@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# tc - create new tmux session with name based on pattern:
+# {CURRENT_DIR}[-{GIT_BRANCH_NAME}]
+# git branch name is optional, it will create one without it when there is no git repo.
+
+if [ -n "${TMUX}" ]; then
+  echo "Error: This script cannot be used inside TMUX session."
+  exit 1
+fi
+
+current_dir_name=$(basename "$(pwd)")
+current_branch_name="$(git branch --show-current 2>/dev/null)"
+if [ "${current_branch_name}" == "" ]; then
+  new_session_name="${current_dir_name}"
+else
+  new_session_name="${current_dir_name}-${current_branch_name}"
+  new_session_name=$(echo "${new_session_name}" | tr '/' '-')
+fi
+
+all_sessions=$(tmux ls -F '#{session_name}' 2>/dev/null)
+
+for existing_session_name in $all_sessions; do
+  if [ "${existing_session_name}" == "${new_session_name}" ]; then
+    echo "Error: session with '${new_session_name}' already exists."
+    exit 1
+  fi
+done
+
+tmux new -s "${new_session_name}"

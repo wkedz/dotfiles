@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Zet aka. Zettelkasten
+#
+# Bash script that will create note in VAULT_NOTES_PATH.
+# Intention of this script is to create quick notest in order to build my own second brain.
+
+if [ -z "$1" ]; then
+  echo "Error: Note need to have a name."
+  exit 1
+fi
+
+if [ -z "${VAULT_NOTES_PATH}" ]; then
+  echo "Error: VAULT_NOTES_PATH not set."
+  exit 1
+fi
+
+# Remove all whitespaces
+trimmed_file_name=$(echo "$1" | tr ' ' '-')
+formatted_file_name=$(date "+%Y-%m-%d")_${trimmed_file_name}.md
+whole_path="${VAULT_NOTES_PATH}/${formatted_file_name}"
+
+# Create new file
+touch "${whole_path}" 
+
+# Open for edit
+nvim "${whole_path}"

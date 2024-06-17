@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# ts - simply ts
+# List and select all created tmux sessions, and then attach to it.
+# Return error if there is no session
+
+if  [ -n "${TMUX}" ]; then
+  echo "Error: This script cannot be used inside TMUX session."
+  exit 1
+fi
+
+all_sessions=$(tmux ls)
+status=$?
+if [ $status -eq 1 ]; then
+  echo "Error: there are no tmux sessions."
+  exit 1
+fi
+
+selected_session=$(echo "${all_sessions}" | awk -F: '{print $1}' | fzf | xargs echo)
+
+tmux a -t "$selected_session"
