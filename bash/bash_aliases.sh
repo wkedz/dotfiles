@@ -39,4 +39,23 @@ function gunwipall() {
     git reset "$_commit" || return 1
   fi
 }
+
+
+# pyenv
+function get_new_session_name() {
+  current_dir_name=$(basename "$(pwd)")
+  current_branch_name="$(git branch --show-current 2>/dev/null)"
+  if [ "${current_branch_name}" == "" ]; then
+    new_session_name="${current_dir_name}"
+  else
+    new_session_name="${current_dir_name}-${current_branch_name}"
+    new_session_name=$(echo "${new_session_name}" | tr '/' '-')
+  fi
+  echo ${new_session_name}
+}
+
+alias pc='pyenv virtualenv $(get_new_session_name)'
+alias pa='pyenv activate $(get_new_session_name)'
+alias pd='pyenv deactivate'
+
 " >> ~/.bash_aliases
