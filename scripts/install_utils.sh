@@ -15,4 +15,7 @@ lzma \
 libbz2-dev \
 liblzma-dev \
 python3-tk \
-tk-dev
+tk-dev \
+libreoffice \
+ffmpeg
+
