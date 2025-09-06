@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the default download URL for the latest Go version
-LATEST_GO_URL="https://go.dev/dl/go1.22.4.linux-amd64.tar.gz"
+LATEST_GO_URL="https://go.dev/dl/go1.25.0.linux-amd64.tar.gz"
 
 if [[ -z "$GOLAND_INSTALL_VERSION" ]]; then
     echo "GOLAND_INSTALL_VERSION is not set. Installing the latest version of Go."
